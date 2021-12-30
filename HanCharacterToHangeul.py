@@ -1,20 +1,8 @@
-import binascii
-import sys
-import io
-
-
-sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
-
-
 if __name__ == '__main__':
     str_val = '瀰'.encode('utf-8')
-    hex_val = binascii.hexlify(str_val).decode('utf-8')
-    checkwhere = 0
-
-    print(bytes.fromhex(hex_val).decode('utf-8'))
-    hex_val = int(hex_val, 16)
-    print(format(hex_val, 'x'))
+    print(str_val)
+    print(str_val.decode('utf-8'))
+    hex_val = int.from_bytes(str_val, byteorder='big')
 
     if hex_val >= 0xE18480 and hex_val <= 0xE187BF:
         hex_val = hex_val + 0x43400
@@ -43,9 +31,10 @@ if __name__ == '__main__':
         # 3F800이 오류나서 33800으로 바꿈
         checkwhere = 8
 
+    print()
     print(hex_val)
     print()
-    hex_val = format(hex_val, 'x')
-    print(hex_val)
-    print(bytes.fromhex(hex_val).decode('utf-8'))
-    print(checkwhere)
+
+    After_val = hex_val.to_bytes(3, byteorder='big')
+    print(After_val)
+    print(After_val.decode('utf-8'))
