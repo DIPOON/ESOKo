@@ -1,0 +1,12 @@
+{
+    "name":"projects/horizontal-cab-417404/locations/us-central1/glossaries/test_glossary_2",
+    "languagePair": {
+      "sourceLanguageCode": "en",
+      "targetLanguageCode": "ko"
+      },
+    "inputConfig": {
+      "gcsSource": {
+        "inputUri": "gs://elder-scrolls-online-ko-glossary/elder_scrolls_online_ko_glossary.csv"
+      }
+    }
+  }
