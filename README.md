@@ -9,7 +9,7 @@
 <br>
 3. Esoextractdata -l 옵션으로 kr.lang.csv 만들어서 en.lang에는 있고 kr.lang에는 없는 행을 추가한다
 <br>
-  3-1. Application/Translate.php 로 구글 번역을 한다
+  3-1. Application/Translate.php 로 구글 번역한다
   <br>
 4. kr.lang.csv 에서 백슬래쉬로 줄이 잘리지 않게 가공한다
 https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
@@ -21,4 +21,5 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 
 ## TODO List
 esokr 코드 정리
+<br>
 유저 참여 가능한 번역툴
