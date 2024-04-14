@@ -1,0 +1,9 @@
+auth:
+  rootPassword: korean@local
+  database: laravel
+
+primary:
+  service:
+    type: NodePort
+    nodePorts:
+      mysql: 30306
