@@ -1,0 +1,16 @@
+image:
+  repository: bitnami/php-fpm
+  tag: "8.1.28"
+
+service:
+  type: NodePort
+  port: 30080
+
+volumes:
+  - name: was
+    hostPath:
+      path: /project
+
+volumeMounts:
+  - name: was
+    mountPath: /project
