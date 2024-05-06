@@ -23,3 +23,23 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 esokr 코드 정리
 <br>
 유저 참여 가능한 번역툴
+
+## 관련 기술
+<ul>
+<li>HTML</li>
+<li>Helm</li>
+<li>Kubernetes</li>
+<li>Docker</li>
+<li>Laravel</li>
+<li>PHP</li>
+<li>Nginx</li>
+<li>MySQL</li>
+<li>Redis</li>
+<li>Composer</li>
+<li>Kind</li>
+<li>CSS</li>
+<li>JavaScript</li>
+<li>Google Cloud Console</li>
+<li>Google Kubernetes Engine</li>
+<li>GoCD</li>
+</ul>
