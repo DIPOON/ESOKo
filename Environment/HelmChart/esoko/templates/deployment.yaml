@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: was-deployment
+  labels:
+    app: was
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: was
+  template:
+    metadata:
+      labels:
+        app: was
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.26.0
+          ports:
+            - containerPort: 80
+        - name: laravel
+          image: localhost:5001/laravel:0.0.4
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
