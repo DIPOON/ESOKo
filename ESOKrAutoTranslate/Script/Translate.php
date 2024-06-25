@@ -17,17 +17,21 @@
 
 require '../vendor/autoload.php';
 
+use DeepL\Translator;
+use Google\ApiCore\ApiException;
 use Google\Cloud\Translate\V3\Client\TranslationServiceClient;
 use Google\Cloud\Translate\V3\TranslateTextGlossaryConfig;
 use Google\Cloud\Translate\V3\TranslateTextRequest;
 
 /**
- * @param string $text          The text to translate.
- * @param string $targetLanguage    Language to translate to.
- * @param string $sourceLanguage    Language of the source.
- * @param string $projectId     Your Google Cloud project ID.
- * @param string $glossaryId    Your glossary ID.
- * @return string translated text.
+ * @param string $text
+ * @param string $targetLanguage
+ * @param string $sourceLanguage
+ * @param string $projectId
+ * @param string $glossaryId
+ * @return string
+ * @throws ApiException
+ * @throws Exception
  */
 function v3_translate_text_with_glossary(
     string $text,
@@ -70,13 +74,14 @@ function v3_translate_text_with_glossary(
     } finally {
         $translationServiceClient->close();
     }
+    throw new Exception("why come here");
 }
 
 /**
- * @param string $beforeString          The text to covnert.
+ * @param string $beforeString          The text to convert.
  * @return string converted text.
  */
-function ConvertCN2KO(string $beforeString): string {
+function convert_CN_KO(string $beforeString): string {
     $afterString = "";
     for ($i = 0; $i < mb_strlen($beforeString, "utf-8"); $i++) { // beforeString 에서 한글자씩 convert
         // 한글자 utf-8 value
@@ -116,40 +121,70 @@ function ConvertCN2KO(string $beforeString): string {
 }
 
 try {
-    $file = fopen("../Design/update_41_added.csv", 'r');
+    // 소요 시간 측정하기 위해서 시각 추가
+    echo time() . "\n";
+
+    // 새로 추가된 부분 조회
+    $file = fopen("../Design/update_42_added.csv", 'r');
+    if ($file === false) {
+        throw new Exception("Unable to open file!");
+    }
+
+    // 번역, 변환해서 저장
     $fp = fopen('real.csv', 'w');
     $counter = 0;
     while (($line = fgetcsv($file)) !== FALSE) {
-        $counter++;
+        // 원문 Text 확인
         if (isset($line[4]) === false) {
             throw new Exception("line 4 is not set");
         }
         $originalString = $line[4];
-        echo $originalString." ";
-        print("\n");
+        echo $originalString." "."\n";
+
+
+        // 정상적인 문자일 때 번역한다. 번역 성공 시 한글이므로 한문 변환한다.
         if (is_string($originalString) === true) {
-            $translatedString = v3_translate_text_with_glossary($originalString, "ko", "en", "horizontal-cab-417404", "test_glossary_2");
+            // 구글 번역
+//            $translatedString = v3_translate_text_with_glossary($originalString, "ko", "en",
+//                project_name, "test_glossary_2");
+
+            // 디플 번역
+            $authKey = ""; // Replace with your key
+            $translator = new Translator($authKey);
+            $result = $translator->translateText($originalString, null, 'ko');
+            $translatedString = $result->text;
+
+            // 번역문으로 대체
             if (is_string($translatedString) === true) {
                 echo $translatedString." ";
                 print("\n");
-                $convertedString = ConvertCN2KO($translatedString);
+                $convertedString = convert_CN_KO($translatedString);
                 if (is_string($convertedString) === true) {
                     echo $convertedString." ";
                     print("\n");
-                    $line[4] = (string)$convertedString;
+                    $line[4] = $convertedString;
                 }
             }
         }
+
+        // 문자이든 아니든 데이터 추가한다.
         fputcsv($fp, $line);
+
+        // 진행 확인용 문구 출력한다.
+        $counter++;
         print($counter);
         print("\n");
         print("\n\n");
     }
+
+    // 정리
     fclose($file);
     fclose($fp);
-
+    echo time() . "\n";
     echo "와 이게 끝나네";
 
 } catch (Exception $e) {
+    echo $e->getCode();
+    echo $e->getMessage();
     echo "나중에 구체적으로 에러 처리 추가하죠 뭐";
 }

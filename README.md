@@ -9,14 +9,16 @@
 <br>
 3. Esoextractdata -l 옵션으로 kr.lang.csv 만들어서 en.lang에는 있고 kr.lang에는 없는 행을 추가한다
 <br>
-  3-1. Application/Translate.php 로 구글 번역한다
+  4. Application/Translate.php 로 구글 번역한다
   <br>
-4. kr.lang.csv 에서 백슬래쉬로 줄이 잘리지 않게 가공한다
+~~5. kr.lang.csv 에서 백슬래쉬로 줄이 잘리지 않게 가공한다
 https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 <br>
-5. esoextractdata -x 옵션으로 kr Lang 파일 만든다
+이유는 잘 모르겠는데 이부분 하니까 문자열이 오히려 잘림~~
 <br>
-6. 완성된 kr.lang 파일을 기존 에드온 파일 gamedata 쪽에서 갈아끼운다
+6. esoextractdata -x 옵션으로 kr Lang 파일 만든다
+<br>
+7. 완성된 kr.lang 파일을 기존 에드온 파일 gamedata 쪽에서 갈아끼운다
 <br>
 
 ## TODO List
