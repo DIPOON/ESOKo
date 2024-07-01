@@ -43,3 +43,20 @@ esokr 코드 정리
 <li>Google Kubernetes Engine</li>
 <li>GoCD</li>
 </ul>
+
+## 로컬 구성 가이드
+Kind
+`sh Environment/KubernetesValue/local/kind-with-registry.sh`
+
+GoCD
+`helm upgrade gocd-app gocd/gocd -n cicd --create-namespace --install`
+
+MySQL
+`helm upgrade my-release oci://registry-1.docker.io/bitnamicharts/mysql -n local --create-namespace --install -f KubernetesValue/local/mysql-value.yaml`
+
+WAS
+`helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install`
+
+정리
+1. `helm uninstall was-release -n local`
+2. `kind delete cluster`
