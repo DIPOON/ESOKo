@@ -17,17 +17,20 @@
 
 require '../vendor/autoload.php';
 
+use Google\ApiCore\ApiException;
 use Google\Cloud\Translate\V3\Client\TranslationServiceClient;
 use Google\Cloud\Translate\V3\TranslateTextGlossaryConfig;
 use Google\Cloud\Translate\V3\TranslateTextRequest;
 
 /**
- * @param string $text          The text to translate.
- * @param string $targetLanguage    Language to translate to.
- * @param string $sourceLanguage    Language of the source.
- * @param string $projectId     Your Google Cloud project ID.
- * @param string $glossaryId    Your glossary ID.
- * @return string translated text.
+ * @param string $text
+ * @param string $targetLanguage
+ * @param string $sourceLanguage
+ * @param string $projectId
+ * @param string $glossaryId
+ * @return string
+ * @throws ApiException
+ * @throws Exception
  */
 function v3_translate_text_with_glossary(
     string $text,
@@ -70,6 +73,7 @@ function v3_translate_text_with_glossary(
     } finally {
         $translationServiceClient->close();
     }
+    throw new Exception("invalid coming");
 }
 
 /**
@@ -136,7 +140,7 @@ try {
                 if (is_string($convertedString) === true) {
                     echo $convertedString." ";
                     print("\n");
-                    $line[4] = (string)$convertedString;
+                    $line[4] = $convertedString;
                 }
             }
         }
