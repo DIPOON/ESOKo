@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -o errexit
 
 # 1. Create registry container unless it already exists
@@ -30,6 +30,8 @@ nodes:
     extraPortMappings:
       - containerPort: 30306
         hostPort: 3306
+      - containerPort: 30080
+        hostPort: 5759
   - role: worker
 EOF
 

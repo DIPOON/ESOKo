@@ -17,7 +17,17 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 5. esoextractdata -x 옵션으로 kr Lang 파일 만든다
 <br>
 6. 완성된 kr.lang 파일을 기존 에드온 파일 gamedata 쪽에서 갈아끼운다
-<br>
+
+## 로컬 구성 가이드
+Kind <br>
+`sh Environment/KubernetesValue/local/kind-with-registry.sh`
+
+WAS <br>
+`helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install --kube-context kind-kind`
+
+정리
+1. `helm uninstall was-release -n local --kube-context kind-kind`
+2. `kind delete cluster`
 
 ## TODO List
 esokr 코드 정리
@@ -26,16 +36,16 @@ esokr 코드 정리
 
 ## 관련 기술
 <ul>
+<li>Composer</li>
+<li>Docker</li>
 <li>HTML</li>
 <li>Helm</li>
 <li>Kubernetes</li>
-<li>Docker</li>
 <li>Laravel</li>
 <li>PHP</li>
 <li>Nginx</li>
 <li>MySQL</li>
 <li>Redis</li>
-<li>Composer</li>
 <li>Kind</li>
 <li>CSS</li>
 <li>JavaScript</li>
