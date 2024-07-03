@@ -20,6 +20,9 @@ spec:
         - name: nginx-conf
           configMap:
             name: configmap-nginx
+        - name: php-conf
+          configMap:
+            name: configmap-php
       containers:
         - name: nginx
           image: nginx:1.26.0
@@ -38,3 +41,6 @@ spec:
           volumeMounts:
             - name: nginx-php-sock
               mountPath: /sock
+            - name: php-conf
+              mountPath: /usr/local/etc/php-fpm.d/zzz.conf
+              subPath: zzz.conf
