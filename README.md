@@ -19,7 +19,7 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 6. 완성된 kr.lang 파일을 기존 에드온 파일 gamedata 쪽에서 갈아끼운다
 
 ## 로컬 구성 가이드
-라라벨 이미지 생성
+라라벨 이미지 생성 <br>
 `docker build -t localhost:5001/laravel:0.0.6 WebProject/`
 
 Kind 구성 <br>
@@ -30,6 +30,9 @@ Kind 구성 <br>
 
 이미지 확인 <br>
 `curl -X GET http://localhost:5001/v2/laravel/tags/list`
+
+DB 구성 <br>
+`helm upgrade db-release oci://registry-1.docker.io/bitnamicharts/mysql -n local --create-namespace --install --kube-context kind-kind -f Environment/KubernetesValue/local/mysql-value.yaml`
 
 WAS 구성 <br>
 `helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install --kube-context kind-kind`
