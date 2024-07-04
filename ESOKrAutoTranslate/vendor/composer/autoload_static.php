@@ -65,6 +65,10 @@ class ComposerStaticInit91b54a59e586d3d3ddae5acad5d2caf0
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'D' => 
+        array (
+            'DeepL\\' => 6,
+        ),
         'B' => 
         array (
             'Brick\\Math\\' => 11,
@@ -216,6 +220,10 @@ class ComposerStaticInit91b54a59e586d3d3ddae5acad5d2caf0
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'DeepL\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/deeplcom/deepl-php/src',
         ),
         'Brick\\Math\\' => 
         array (
