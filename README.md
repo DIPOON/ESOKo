@@ -21,7 +21,50 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 7. 완성된 kr.lang 파일을 기존 에드온 파일 gamedata 쪽에서 갈아끼운다
 <br>
 
+## 로컬 구성 가이드
+라라벨 이미지 생성 <br>
+`docker build -t localhost:5001/laravel:0.0.6 WebProject/`
+
+Kind 구성 <br>
+`sh Environment/KubernetesValue/local/kind-with-registry.sh`
+
+로컬 레지스트리에 라라벨 이미지 업로드 <br>
+`docker push localhost:5001/laravel:0.0.6`
+
+이미지 확인 <br>
+`curl -X GET http://localhost:5001/v2/laravel/tags/list`
+
+DB 구성 <br>
+`helm upgrade db-release oci://registry-1.docker.io/bitnamicharts/mysql -n local --create-namespace --install --kube-context kind-kind -f Environment/KubernetesValue/local/mysql-value.yaml`
+
+WAS 구성 <br>
+`helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install --kube-context kind-kind`
+
+(개발 후 optional) 정리
+1. `helm uninstall was-release -n local --kube-context kind-kind`
+2. `kind delete cluster`
+
 ## TODO List
 esokr 코드 정리
 <br>
 유저 참여 가능한 번역툴
+
+## 관련 기술
+<ul>
+<li>Composer</li>
+<li>Docker</li>
+<li>HTML</li>
+<li>Helm</li>
+<li>Kubernetes</li>
+<li>Laravel</li>
+<li>PHP</li>
+<li>Nginx</li>
+<li>MySQL</li>
+<li>Redis</li>
+<li>Kind</li>
+<li>CSS</li>
+<li>JavaScript</li>
+<li>Google Cloud Console</li>
+<li>Google Kubernetes Engine</li>
+<li>GoCD</li>
+</ul>

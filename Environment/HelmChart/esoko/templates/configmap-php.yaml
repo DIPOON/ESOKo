@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-php
+data:
+  zzz.conf: |
+    [www]
+    listen = /sock/php-fpm.sock
+    listen.mode = 0666

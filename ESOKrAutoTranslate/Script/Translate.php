@@ -74,7 +74,7 @@ function v3_translate_text_with_glossary(
     } finally {
         $translationServiceClient->close();
     }
-    throw new Exception("why come here");
+    throw new Exception("invalid coming");
 }
 
 /**
