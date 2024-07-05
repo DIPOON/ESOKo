@@ -14,6 +14,11 @@ data:
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-NginX-Proxy true;
+      index index.php;
+      location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ {
+        fastcgi_pass unix:/sock/php-fpm.sock;
+        expires max;
+      }
       location / {
         try_files $uri /index.php$is_args$args;
         proxy_connect_timeout 300;
