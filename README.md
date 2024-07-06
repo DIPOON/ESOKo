@@ -9,8 +9,8 @@
 <br>
 3. Esoextractdata -l 옵션으로 kr.lang.csv 만들어서 en.lang에는 있고 kr.lang에는 없는 행을 추가한다
 <br>
-  4. Application/Translate.php 로 구글 번역한다
-  <br>
+4. Application/Translate.php 로 구글 번역한다
+<br>
 ~~5. kr.lang.csv 에서 백슬래쉬로 줄이 잘리지 않게 가공한다
 https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 <br>
@@ -22,6 +22,9 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 <br>
 
 ## 로컬 구성 가이드
+필요 <br>
+리눅스(WSL) 도커(도커데스크탑) Kind Helm Git Php K9s
+
 라라벨 이미지 생성 <br>
 `docker build -t localhost:5001/laravel:0.0.6 WebProject/`
 
@@ -68,3 +71,11 @@ esokr 코드 정리
 <li>Google Kubernetes Engine</li>
 <li>GoCD</li>
 </ul>
+
+알려진 문제
+
+kind-with-registry.sh invalid 명령어라고 뜨면서 실패하는 경우
+line seperator 를 수정하거나 /bin/bash -> /bin/sh 수정
+
+라라벨 /storage/ ... /.log permission denied
+chmod 777 storage/ -R

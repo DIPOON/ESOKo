@@ -23,6 +23,15 @@ spec:
         - name: php-conf
           configMap:
             name: configmap-php
+        - name: nginx-php-static-resource
+          emptyDir: {}
+      initContainers:
+        - name: init-volume
+          image: localhost:5001/laravel:0.0.6
+          command: ['sh', '-c', 'cp -r /var/www/html/public/* /usr/share/nginx/html/public']
+          volumeMounts:
+            - name: nginx-php-static-resource
+              mountPath: /usr/share/nginx/html/public
       containers:
         - name: nginx
           image: nginx:1.26.0
@@ -33,6 +42,8 @@ spec:
               mountPath: /sock
             - name: nginx-conf
               mountPath: /etc/nginx/conf.d
+            - name: nginx-php-static-resource
+              mountPath: /usr/share/nginx/html/public
         - name: laravel
           image: localhost:5001/laravel:0.0.6
           imagePullPolicy: Always
