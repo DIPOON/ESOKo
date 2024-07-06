@@ -25,6 +25,11 @@ spec:
             name: configmap-php
         - name: nginx-php-static-resource
           emptyDir: {}
+        {{ if .Values.localMount }}
+        - name: local-laravel-code
+          hostPath:
+            path: /app/www
+        {{ end }}
       initContainers:
         - name: init-volume
           image: localhost:5001/laravel:0.0.6
@@ -55,3 +60,7 @@ spec:
             - name: php-conf
               mountPath: /usr/local/etc/php-fpm.d/zzz.conf
               subPath: zzz.conf
+            {{ if .Values.localMount }}
+            - name: local-laravel-code
+              mountPath: /var/www/html
+            {{ end }}
