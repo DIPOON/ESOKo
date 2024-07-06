@@ -16,8 +16,7 @@ data:
       proxy_set_header X-NginX-Proxy true;
       index index.php;
       location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ {
-        fastcgi_pass unix:/sock/php-fpm.sock;
-        expires max;
+        root /usr/share/nginx/html/public;
       }
       location / {
         try_files $uri /index.php$is_args$args;
