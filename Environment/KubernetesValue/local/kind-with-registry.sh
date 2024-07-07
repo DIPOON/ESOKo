@@ -32,7 +32,13 @@ nodes:
         hostPort: 3306
       - containerPort: 30080
         hostPort: 5759
+    extraMounts:
+      - hostPath: /mnt/d/ESOKo/WebProject
+        containerPath: /app/www
   - role: worker
+    extraMounts:
+      - hostPath: /mnt/d/ESOKo/WebProject
+        containerPath: /app/www
 EOF
 
 # 3. Add the registry config to the nodes

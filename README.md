@@ -29,6 +29,7 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 `docker build -t localhost:5001/laravel:0.0.6 WebProject/`
 
 Kind 구성 <br>
+Environment/KubernetesValue/local/kind-with-registry.sh 경로의 hostPath 여기를 자신의 경로로 수정합니다. <br>
 `sh Environment/KubernetesValue/local/kind-with-registry.sh`
 
 로컬 레지스트리에 라라벨 이미지 업로드 <br>
@@ -41,7 +42,7 @@ DB 구성 <br>
 `helm upgrade db-release oci://registry-1.docker.io/bitnamicharts/mysql -n local --create-namespace --install --kube-context kind-kind -f Environment/KubernetesValue/local/mysql-value.yaml`
 
 WAS 구성 <br>
-`helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install --kube-context kind-kind`
+`helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install --kube-context kind-kind --set localMount=true`
 
 (개발 후 optional) 정리
 1. `helm uninstall was-release -n local --kube-context kind-kind`
