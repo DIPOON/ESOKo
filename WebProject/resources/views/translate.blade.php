@@ -9,6 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+                    <!-- 번역 submit 하신 분에게 남기는 말 -->
+                    <p>{{ $message ?? '환영합니다.' }}</p>
+
                     <!-- 번역 필요한 출력 -->
                     <p><strong>번역 필요한 문장</strong></p>
                     <p>{{ $question ?? 'None data' }}</p>
@@ -17,6 +20,11 @@
                     <form method="POST" action="{{ route('translate') }}">
                         @csrf
                         <div class="mb-3">
+                            <input type="hidden" name="lang_id" value={{ $lang_id }}>
+                            <input type="hidden" name="unknown" value={{ $unknown }}>
+                            <input type="hidden" name="index" value={{ $index }}>
+                            <input type="hidden" name="offset" value={{ $offset }}>
+                            <input type="hidden" name="version" value={{ $version }}>
                             <label for="answer" class="form-label">Your Answer:</label>
                             <input type="text" class="form-control" id="answer" name="answer" required>
                         </div>
