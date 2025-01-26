@@ -32,6 +32,10 @@ class TranslationController extends Controller
         if (is_null($result) === false) {
             $stringed = $result->lang_text;
             $langId = $result->lang_id;
+            $unknown = $result->unknown;
+            $index = $result->index;
+            $offset = $result->offset;
+            $version = $result->version;
         }
         return array(
             'question' => $stringed,
