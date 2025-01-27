@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\EnumState;
+use App\Enum\EnumVersion;
 use App\Models\TranslationLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -24,18 +25,16 @@ class TranslationController extends Controller
         $unknown = 0;
         $index = 0;
         $offset = 0;
-        $version = 0;
-        $result = DB::table('original_texts')
+        $result = DB::table('lang_id_unknown_index_offsets')
             ->where('state', EnumState::RAW) // TODO 나중에 번역 상태가 낮은 것부터 조회하도록 개선
             ->inRandomOrder()
             ->first();
         if (is_null($result) === false) {
-            $stringed = $result->lang_text;
+            $stringed = $result->text;
             $langId = $result->lang_id;
             $unknown = $result->unknown;
             $index = $result->index;
             $offset = $result->offset;
-            $version = $result->version;
         }
         return array(
             'question' => $stringed,
@@ -43,7 +42,7 @@ class TranslationController extends Controller
             'unknown' => $unknown,
             'index' => $index,
             'offset' => $offset,
-            'version' => $version,
+            'version' => EnumVersion::UPDATE_45_PTS, // TODO 새로운 버전 텍스트 올릴 때마다 올려야함
         );
     }
 
@@ -86,7 +85,7 @@ class TranslationController extends Controller
         $text = $validatedData['answer'];
         $version = $validatedData['version'];
 
-        // 번역문 남기기
+        // 번역 로그 남기기
         $translationLog = new TranslationLog();
         $translationLog->lang_id = $langId;
         $translationLog->unknown = $unknown;
@@ -97,6 +96,8 @@ class TranslationController extends Controller
         $translationLog->state = EnumState::UNKNOWN; // TODO 유저 레벨 반영
         $translationLog->user_id = $userId;
         $translationLog->save();
+
+        // TODO 번역문 저장
 
         // 응답값 생성
         $result = self::getTranslateDefaultReturn();
