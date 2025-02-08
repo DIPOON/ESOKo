@@ -32,7 +32,7 @@ spec:
         {{ end }}
       initContainers:
         - name: init-volume
-          image: localhost:5001/laravel:0.0.6
+          image: localhost:5001/laravel:latest
           command: ['sh', '-c', 'cp -r /var/www/html/public/* /usr/share/nginx/html/public']
           volumeMounts:
             - name: nginx-php-static-resource
@@ -50,7 +50,7 @@ spec:
             - name: nginx-php-static-resource
               mountPath: /usr/share/nginx/html/public
         - name: laravel
-          image: localhost:5001/laravel:0.0.6
+          image: localhost:5001/laravel:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

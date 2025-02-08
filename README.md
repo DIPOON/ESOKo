@@ -26,14 +26,14 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 리눅스(WSL) 도커(도커데스크탑) Kind Helm Git Php K9s
 
 라라벨 이미지 생성 <br>
-`docker build -t localhost:5001/laravel:0.0.6 WebProject/`
+`docker build -t localhost:5001/laravel:latest WebProject/`
 
 Kind 구성 <br>
 Environment/KubernetesValue/local/kind-with-registry.sh 경로의 hostPath 여기를 자신의 경로로 수정합니다. <br>
 `sh Environment/KubernetesValue/local/kind-with-registry.sh`
 
 로컬 레지스트리에 라라벨 이미지 업로드 <br>
-`docker push localhost:5001/laravel:0.0.6`
+`docker push localhost:5001/laravel:latest`
 
 이미지 확인 <br>
 `curl -X GET http://localhost:5001/v2/laravel/tags/list`
