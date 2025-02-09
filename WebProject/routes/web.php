@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TranslationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/translate', [TranslationController::class, 'randomShow'])->name('translate');
+Route::post('/translate', [TranslationController::class, 'submit'])->name('translate');
 
 require __DIR__.'/auth.php';
