@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\EnumState;
+use App\Enum\EnumUser;
 use App\Enum\EnumVersion;
 use App\Models\TranslationLog;
 use Illuminate\Contracts\Foundation\Application;
@@ -50,7 +51,7 @@ class TranslationController extends Controller
      * 랜덤 질문 페이지 보여주기
      * @return Application|Factory|View
      */
-    public function randomShow()
+    public function randomShow(): Factory|View|Application
     {
         $result = self::getTranslateDefaultReturn();
         return view('translate', $result);
@@ -60,13 +61,13 @@ class TranslationController extends Controller
      * @param Request $request
      * @return Application|Factory|View
      */
-    public function submit(Request $request)
+    public function submit(Request $request): Factory|View|Application
     {
         // 번역자 확인
         if (Auth::check() === true) {
             $userId = Auth::id();
         } else {
-            $userId = $request->input('user_id', 0);
+            $userId = $request->input('user_id', EnumUser::ANONYMOUS);
         }
 
         // 입력값 조회
@@ -85,6 +86,18 @@ class TranslationController extends Controller
         $text = $validatedData['answer'];
         $version = $validatedData['version'];
 
+        // 번역문 저장
+        DB::table('lang_id_unknown_index_offsets')
+            ->where('lang_id', $langId)
+            ->where('unknown', $unknown)
+            ->where('index', $index)
+            ->where('offset', $offset)
+            ->update([
+                'text' => $text,
+                'state' => EnumState::UNKNOWN, // TODO 사용자 레벨에 따라 변경
+                'user_id' => $userId,
+            ]);
+
         // 번역 로그 남기기
         $translationLog = new TranslationLog();
         $translationLog->lang_id = $langId;
@@ -96,8 +109,6 @@ class TranslationController extends Controller
         $translationLog->state = EnumState::UNKNOWN; // TODO 유저 레벨 반영
         $translationLog->user_id = $userId;
         $translationLog->save();
-
-        // TODO 번역문 저장
 
         // 응답값 생성
         $result = self::getTranslateDefaultReturn();
