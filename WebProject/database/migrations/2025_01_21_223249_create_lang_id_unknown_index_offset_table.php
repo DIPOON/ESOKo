@@ -13,13 +13,13 @@ return new class extends Migration
      * 이 테이블의 값으로 kr.lang 만듬
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('lang_id_unknown_index_offsets', function (Blueprint $table) {
             $table->id();
-            $table->integer('lang_id');            // lang 파일 ID 열
-            $table->tinyInteger('unknown');        // lang 파일 Unknown 열
-            $table->mediumInteger('index');        // lang 파일 Index 열
+            $table->integer('lang_id');            // lang 파일 ID 열, section id
+            $table->smallInteger('unknown');       // lang 파일 Unknown 열, section index
+            $table->mediumInteger('index');        // lang 파일 Index 열, string index
             $table->integer('offset');             // lang 파일 Offset 열
             $table->text('text');                  // lang 파일 Text 열이나 번역된 문장
             $table->tinyInteger('state');          // 번역 상태
@@ -36,7 +36,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('lang_id_unknown_index_offsets');
     }
