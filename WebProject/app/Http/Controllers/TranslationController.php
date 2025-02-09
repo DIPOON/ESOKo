@@ -9,6 +9,7 @@ use App\Models\TranslationLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -59,9 +60,9 @@ class TranslationController extends Controller
 
     /**
      * @param Request $request
-     * @return Application|Factory|View
+     * @return RedirectResponse
      */
-    public function submit(Request $request): Factory|View|Application
+    public function submit(Request $request): RedirectResponse
     {
         // 번역자 확인
         if (Auth::check() === true) {
@@ -110,10 +111,6 @@ class TranslationController extends Controller
         $translationLog->user_id = $userId;
         $translationLog->save();
 
-        // 응답값 생성
-        $result = self::getTranslateDefaultReturn();
-        $result['message'] = $translationLog->id . ' done';
-
-        return view('translate', $result);
+        return redirect()->route('translate')->with('message', $translationLog->id . ' done');
     }
 }

@@ -10,7 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <!-- 번역 submit 하신 분에게 남기는 말 -->
-                    <p>{{ $message ?? '환영합니다.' }}</p>
+                    @if(session('message'))
+                        <div class="alert alert-success">
+                            {{ session('message') }}
+                        </div>
+                    @endif
 
                     <!-- 번역 필요한 출력 -->
                     <p><strong>번역 필요한 문장</strong></p>

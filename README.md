@@ -73,10 +73,12 @@ esokr 코드 정리
 <li>GoCD</li>
 </ul>
 
-알려진 문제
+## 알려진 문제
 
 kind-with-registry.sh invalid 명령어라고 뜨면서 실패하는 경우
 line seperator 를 수정하거나 /bin/bash -> /bin/sh 수정
 
 라라벨 /storage/ ... /.log permission denied
 chmod 777 storage/ -R
+
+익명 번역자 접근 불가
