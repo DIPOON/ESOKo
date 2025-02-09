@@ -10,7 +10,7 @@ class Converter
      * @param string $beforeString The text to convert.
      * @return string converted text.
      */
-    function convert_CN_KO(string $beforeString): string
+    static function convert_CN_KO(string $beforeString): string
     {
         $afterString = "";
         for ($i = 0; $i < mb_strlen($beforeString, "utf-8"); $i++) { // beforeString 에서 한글자씩 convert
@@ -64,7 +64,7 @@ class Converter
             $eachChar = mb_substr($beforeString, $i, 1, "utf-8");
             $beforeUTF8Value = hexdec("0x" . bin2hex($eachChar));
 
-            // conver_CN_KO 쪽과 헷갈리지 않기 위해서 그냥 다 더함
+            // convert_CN_KO 쪽과 헷갈리지 않기 위해서 그냥 다 더함
             if ($beforeUTF8Value >= 0xEAB880 - 0x33800 && $beforeUTF8Value <= 0xEABFBF - 0x33800) {
                 $resultCharValue = $beforeUTF8Value + 0x33800;
             } else if ($beforeUTF8Value >= 0xEBB880 - 0x33800 && $beforeUTF8Value <= 0xEBBFBF - 0x33800) {
