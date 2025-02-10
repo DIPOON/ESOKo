@@ -70,7 +70,6 @@ esokr 코드 정리
 <li>JavaScript</li>
 <li>Google Cloud Console</li>
 <li>Google Kubernetes Engine</li>
-<li>GoCD</li>
 </ul>
 
 ## 알려진 문제
@@ -81,4 +80,4 @@ line seperator 를 수정하거나 /bin/bash -> /bin/sh 수정
 라라벨 /storage/ ... /.log permission denied
 chmod 777 storage/ -R
 
-익명 번역자 접근 불가
+좁은 세로폭의 화면에서 로그인/Register 가려지는 문제
