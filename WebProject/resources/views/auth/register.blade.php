@@ -28,7 +28,7 @@
 
             <!-- Password -->
             <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+                <x-label for="password" :value="__('Password 절대 다른 곳에서 사용중인 비밀번호를 쓰지 마십시오')" />
 
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"

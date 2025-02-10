@@ -22,9 +22,11 @@ switch ($width) {
 @endphp
 
 <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
-    <div @click="open = ! open">
-        {{ $trigger }}
-    </div>
+    @if (isset($trigger))
+        <div @click="open = ! open">
+            {{ $trigger }}
+        </div>
+    @endif
 
     <div x-show="open"
             x-transition:enter="transition ease-out duration-200"
