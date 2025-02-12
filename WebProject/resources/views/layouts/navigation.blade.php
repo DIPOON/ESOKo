@@ -23,6 +23,13 @@
                         {{ __('Translate') }}
                     </x-nav-link>
                 </div>
+
+                <!-- Download Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('download')" :active="request()->routeIs('download')">
+                        {{ __('Download') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -77,6 +84,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('translate')" :active="request()->routeIs('translate')">
                 {{ __('Translate') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('download')" :active="request()->routeIs('download')">
+                {{ __('Download') }}
             </x-responsive-nav-link>
         </div>
 
