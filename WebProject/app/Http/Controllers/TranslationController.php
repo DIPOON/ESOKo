@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\EnumState;
 use App\Enum\EnumUser;
-use App\Enum\EnumVersion;
+use App\Enum\EnumPatch;
 use App\Models\TranslationLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -44,7 +44,7 @@ class TranslationController extends Controller
             'unknown' => $unknown,
             'index' => $index,
             'offset' => $offset,
-            'version' => EnumVersion::UPDATE_45_PTS, // TODO 새로운 버전 텍스트 올릴 때마다 올려야함
+            'version' => EnumPatch::UPDATE_45_PTS, // TODO 새로운 버전 텍스트 올릴 때마다 올려야함
         );
     }
 

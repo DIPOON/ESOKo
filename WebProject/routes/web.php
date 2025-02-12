@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\TranslationController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/translate', [TranslationController::class, 'randomShow'])->name('translate');
-Route::post('/translate', [TranslationController::class, 'submit'])->name('translate');
+Route::post('/translate', [TranslationController::class, 'submit']);
+
+Route::get('/download', [DownloadController::class, 'get'])->name('download');
 
 require __DIR__.'/auth.php';
