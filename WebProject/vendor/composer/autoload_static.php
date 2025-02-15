@@ -516,7 +516,11 @@ class ComposerStaticInitffc8c8ad35713f5017eac28a5b6d61c6
     );
 
     public static $classMap = array (
+        'App\\Common\\Converter' => __DIR__ . '/../..' . '/app/Common/Converter.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Enum\\EnumPatch' => __DIR__ . '/../..' . '/app/Enum/EnumPatch.php',
+        'App\\Enum\\EnumState' => __DIR__ . '/../..' . '/app/Enum/EnumState.php',
+        'App\\Enum\\EnumUser' => __DIR__ . '/../..' . '/app/Enum/EnumUser.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Auth\\AuthenticatedSessionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/AuthenticatedSessionController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmablePasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmablePasswordController.php',
@@ -527,7 +531,8 @@ class ComposerStaticInitffc8c8ad35713f5017eac28a5b6d61c6
         'App\\Http\\Controllers\\Auth\\RegisteredUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisteredUserController.php',
         'App\\Http\\Controllers\\Auth\\VerifyEmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerifyEmailController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
-        'App\\Http\\Controllers\\OriginalTextController' => __DIR__ . '/../..' . '/app/Http/Controllers/OriginalTextController.php',
+        'App\\Http\\Controllers\\DownloadController' => __DIR__ . '/../..' . '/app/Http/Controllers/DownloadController.php',
+        'App\\Http\\Controllers\\TranslationController' => __DIR__ . '/../..' . '/app/Http/Controllers/TranslationController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -538,7 +543,7 @@ class ComposerStaticInitffc8c8ad35713f5017eac28a5b6d61c6
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\Auth\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Auth/LoginRequest.php',
-        'App\\Models\\OriginalText' => __DIR__ . '/../..' . '/app/Models/OriginalText.php',
+        'App\\Models\\TranslationLog' => __DIR__ . '/../..' . '/app/Models/TranslationLog.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
