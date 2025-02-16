@@ -1,9 +1,15 @@
 # ESOKo
 
-엘더스크롤 온라인 한글 패치를 작업하기 위해서 부차적으로 사용했던 함수를 저장했습니다.
+엘더스크롤 온라인 한글 패치를 작업하기 위한 저장소입니다.
+<br> 업데이트로 새로 추가된 문구를 추가하기에서 시작해 기계 번역을 시도한 스크립트가 있었습니다.
+<br> 현재는 유저 참여 가능한 웹 번역툴을 돌리는 코드입니다.
 
-## ESOKo 프로젝트 단계
-1. https://esofiles.uesp.net/ 업데이트 41 en.lang 파일을 여기서 구한다
+## esokr 에드온
+https://www.esoui.com/downloads/info2334-EsoKR.html
+
+## ESOkr lang 파일 만드는 방법
+
+1. 먼저 https://esofiles.uesp.net/ 사이트에서 en.lang 파일을 구한다
 <br>
 2. Esoextractdata -d 옵션으로 kr.lang 이랑 en.lang 차이를 구한다
 <br>
@@ -23,7 +29,7 @@ https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
 
 ## 로컬 구성 가이드
 필요 <br>
-리눅스(WSL) 도커(도커데스크탑) Kind Helm Git Php K9s
+리눅스(WSL) 도커(도커데스크탑) Kind Helm Git Php K9s Composer
 
 라라벨 이미지 생성 <br>
 `docker build -t localhost:5001/laravel:latest WebProject/`
@@ -47,11 +53,6 @@ WAS 구성 <br>
 (개발 후 optional) 정리
 1. `helm uninstall was-release -n local --kube-context kind-kind`
 2. `kind delete cluster`
-
-## TODO List
-esokr 코드 정리
-<br>
-유저 참여 가능한 번역툴
 
 ## 관련 기술
 <ul>
@@ -77,7 +78,5 @@ esokr 코드 정리
 kind-with-registry.sh invalid 명령어라고 뜨면서 실패하는 경우
 line seperator 를 수정하거나 /bin/bash -> /bin/sh 수정
 
-라라벨 /storage/ ... /.log permission denied
+라라벨 /storage/ ... /.log permission denied 발생하는 경우
 chmod 777 storage/ -R
-
-좁은 세로폭의 화면에서 로그인/Register 가려지는 문제
