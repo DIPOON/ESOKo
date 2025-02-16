@@ -9,6 +9,7 @@ use App\Models\TranslationLog;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -111,6 +112,76 @@ class TranslationController extends Controller
         $translationLog->user_id = $userId;
         $translationLog->save();
 
-        return redirect()->route('translate')->with('message', $translationLog->id . ' done');
+        return redirect()->route('translate')->with('message', $translationLog->id);
+    }
+
+    /**
+     * 번역에 도움이될 정보 전달
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getSub(Request $request): JsonResponse
+    {
+        // 입력값 조회
+        $validatedData = $request->validate([
+            'lang_id' => 'required',
+            'unknown' => 'required',
+            'index' => 'required',
+        ]);
+        $langId = $validatedData['lang_id'];
+        $unknown = $validatedData['unknown'];
+        $index = $validatedData['index'];
+
+        // 번역 로그 조회
+        $historyGroup = DB::table('translation_logs')
+            ->where('lang_id', $langId)
+            ->where('unknown', $unknown)
+            ->where('index', $index)
+            ->orderByDesc('id')
+            ->limit(3)
+            ->get();
+        $historyList = array();
+        foreach($historyGroup as $history) {
+            $historyList[] = array(
+                'text' => $history->text,
+            );
+        }
+
+        // 앞뒤로 3개씩 확인
+        $neighborIndexList = array(
+            $index - 3,
+            $index - 2,
+            $index - 1,
+            $index,
+            $index + 1,
+            $index + 2,
+            $index + 3,
+        );
+
+        // 주변 문장 조회
+        $neighborGroup = DB::table('lang_id_unknown_index_offsets')
+            ->where('lang_id', $langId)
+            ->where('unknown', $unknown)
+            ->whereIn('index', $neighborIndexList)
+            ->limit(7)
+            ->get();
+        $neighborList = array();
+        foreach($neighborGroup as $neighbor) {
+            $neighborList[] = array(
+                'lang_id' => $neighbor->lang_id,
+                'unknown' => $neighbor->unknown,
+                'index' => $neighbor->index,
+                'text' => $neighbor->text,
+            );
+        }
+
+        // 응답 정리
+        $response = array(
+            'history_list' => $historyList,
+            'neighbor_list' => $neighborList,
+        );
+
+        // JSON으로 반환
+        return response()->json($response);
     }
 }

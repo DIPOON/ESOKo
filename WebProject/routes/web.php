@@ -24,6 +24,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/translate', [TranslationController::class, 'randomShow'])->name('translate');
+Route::get('/translate-sub', [TranslationController::class, 'getSub']);
 Route::post('/translate', [TranslationController::class, 'submit']);
 
 Route::get('/download', [DownloadController::class, 'get'])->name('download');
