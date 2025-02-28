@@ -2,13 +2,14 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     /**
      * Run the migrations.
-     * lang_id-unknown-index-offset 마다 하나씩 있는 테이블
+     * lang_id-unknown-index-offset 마다 하나씩 있는 테이블 - TODO 나중에 offset 상관 없는 것 알아서 테이블 명 수정 필요함
      * en.lang 에서 이 테이블 데이터 생성/삭제
      * 이 테이블의 값으로 kr.lang 만듬
      * @return void
@@ -29,6 +30,9 @@ return new class extends Migration
             $table->index(['state']);
             $table->index(['user_id']);
         });
+
+        // 'lang_id', 'unknown', 'index' 이것만으로도 유니크 걸려서 유니크 수정했음
+        DB::statement("ALTER TABLE `lang_id_unknown_index_offsets` DROP INDEX `identifier`, ADD  UNIQUE INDEX `identifier` (`lang_id` ASC, `unknown` ASC, `index` ASC) VISIBLE");
     }
 
     /**
