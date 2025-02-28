@@ -32,7 +32,10 @@ return new class extends Migration
         });
 
         // 'lang_id', 'unknown', 'index' 이것만으로도 유니크 걸려서 유니크 수정했음
-        DB::statement("ALTER TABLE `lang_id_unknown_index_offsets` DROP INDEX `identifier`, ADD  UNIQUE INDEX `identifier` (`lang_id` ASC, `unknown` ASC, `index` ASC) VISIBLE");
+        DB::statement("ALTER TABLE `lang_id_unknown_index_offsets` DROP INDEX `identifier`, ADD  UNIQUE INDEX `lang_id_unknown_index` (`lang_id` ASC, `unknown` ASC, `index` ASC) VISIBLE");
+
+        // 원문을 보여주고 번역할 수 있도록 en_lang 에 있는 text 칼럼 추가
+        DB::statement("ALTER TABLE `lang_id_unknown_index_offsets` ADD COLUMN `en_text` TEXT NOT NULL AFTER `offset`");
     }
 
     /**
