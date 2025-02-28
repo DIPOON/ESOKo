@@ -23,7 +23,7 @@
                             <input type="hidden" name="offset" value={{ $offset }}>
                             <input type="hidden" name="version" value={{ $version }}>
                             <label for="answer" class="form-label">번역 결과:</label>
-                            <input type="text" class="form-control" id="answer" name="answer" required>
+                            <textarea name="answer" style="width:100%; overflow:hidden;" rows="1" required></textarea>
                         </div>
                         <button type="submit" style="background-color: blue;" class="text-white"><strong>Submit</strong></button>
                     </form>
@@ -50,6 +50,17 @@
 </x-app-layout>
 
 <script>
+    // textarea 입력할 때 자동으로 높이 조절하기
+    document.querySelectorAll("textarea").forEach(function(textarea) {
+        textarea.style.height = textarea.scrollHeight + "px";
+        textarea.style.overflowY = "hidden";
+        textarea.addEventListener("input", function() {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        });
+    });
+
+    // 페이지 로드되면 비동기적으로 번역에 부가적인 정보 불러오기
     document.addEventListener('DOMContentLoaded', function () {
         fetch('/translate-sub?lang_id=' + encodeURIComponent('{{ $lang_id ?? '0' }}')
             + '&unknown=' + encodeURIComponent('{{ $unknown ?? '0' }}')
