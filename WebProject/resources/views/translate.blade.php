@@ -27,23 +27,25 @@
                         </div>
                         <button type="submit" style="background-color: blue;" class="text-white"><strong>Submit</strong></button>
                     </form>
-
+                </div>
+                <div class="p-6 bg-white border-b border-gray-200">
                     <!-- 번역 로그 (위쪽) -->
-                    <h3 style="margin-top: 1rem;"><strong>번역 로그</strong></h3>
+                    <h3><strong>번역 로그</strong></h3>
                     <div id="log-division"></div>
 
                     <!-- 비슷한 위치의 데이터가 들어갈 영역 (아래쪽) -->
                     <h3 style="margin-top: 1rem;"><strong>번역해야하는 문장 주변</strong></h3>
                     <p>아이템인지 지역명인지 등 참조용. 번역해야하는 문장과 전혀 무관할 수 있음</p>
                     <div id="neighbor-division"></div>
-
-                    <!-- 번역 submit 하신 분에게 남기는 말 -->
-                    @if(session('message'))
+                </div>
+                @if(session('message'))
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <!-- 번역 submit 하신 분에게 남기는 말 -->
                         <div class="alert alert-success" style="margin-top: 1rem;">
                             {{ '번역하신 문장은 로그 id ' . session('message') . '으로 저장되었습니다.' }}
                         </div>
-                    @endif
-                </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
