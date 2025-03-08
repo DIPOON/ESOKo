@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TranslationController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,9 @@ Route::get('/dashboard', function () {
 Route::get('/translate', [TranslationController::class, 'randomShow'])->name('translate');
 Route::get('/translate-sub', [TranslationController::class, 'getSub']);
 Route::post('/translate', [TranslationController::class, 'submit']);
+
+Route::get('/search', [SearchController::class, 'get'])->name('search');
+Route::get('/search-text', [SearchController::class, 'getByText']);
 
 Route::get('/download', [DownloadController::class, 'get'])->name('download');
 

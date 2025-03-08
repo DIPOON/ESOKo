@@ -1,7 +1,10 @@
-FROM php:8.1.2-fpm
+FROM php:8.2.0-fpm
 
 # 로컬 개발 환경에서 바로 접속하기 위한 포트
 EXPOSE 8000
+
+## 패키지 최신화. 개발 환경과 세팅하는 순간에 같은 패키지를 보도록 스킵
+#RUN apt update && apt upgrade -y
 
 # Install MySQL
 RUN docker-php-ext-install mysqli pdo pdo_mysql
