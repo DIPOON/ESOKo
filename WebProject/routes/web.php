@@ -29,7 +29,7 @@ Route::get('/translate-sub', [TranslationController::class, 'getSub']);
 Route::post('/translate', [TranslationController::class, 'submit']);
 
 Route::get('/search', [SearchController::class, 'get'])->name('search');
-Route::get('/search-text', [SearchController::class, 'getByText']);
+Route::get('/search-text', [SearchController::class, 'getByText'])->name('search.text');
 
 Route::get('/download', [DownloadController::class, 'get'])->name('download');
 

@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -23,13 +24,13 @@ class SearchController extends Controller
 
     /**
      * @param Request $request
-     * @return View|Factory|Application
+     * @return RedirectResponse
      * @throws AuthenticationException
      * @throws Exception
      */
-    public function getByText(Request $request): View|Factory|Application
+    public function getByText(Request $request): RedirectResponse
     {
-        // 입력값 조회
+        // 입력값 확인
         $validatedData = $request->validate([
             'curious_text' => 'required',
         ]);
@@ -50,28 +51,33 @@ class SearchController extends Controller
             ->setCABundle('/etc/secret-volume/ca.crt')
             ->build();
 
+        // request 정리
+        $params = [
+            'index' => 'my_index',
+            'body' => [
+                'query' => [
+                    'match' => [
+                        'testField' => $curiousText
+                    ]
+                ]
+            ]
+        ];
+
         // 엘라스틱서치에 문의
-        $resultGroup = array();
         try {
-            $response = $client->info();
+            $elasticResponse = $client->search($params);
+            $arrayedResponse = $elasticResponse->asArray();
         } catch (Exception $e) {
-            throw new Exception("fail to get elasticsearch");
+            throw new Exception("fail to get elasticsearch\n" . $e->getMessage());
         }
-//        $params = [
-//            'index' => 'my_index',
-//            'id'    => 'my_id',
-//            'body'  => ['testField' => 'abc']
-//        ];
-//
-//        $response = $client->index($params);
-//        print_r($response->asArray());
 
-        // 응답 정리
-        $response = array(
-            'result_group' => $resultGroup,
-        );
+        // 응답값 확인
+        if (isset($arrayedResponse['hits']['hits']) === false) {
+            throw new Exception("invalid arrayed response" . implode(":", $arrayedResponse));
+        }
 
-        // JSON으로 반환
-        return response()->json($response);
+        return redirect()->route('search')
+            ->with('curious_text', $curiousText)
+            ->with('result_group', $arrayedResponse['hits']['hits']);
     }
 }

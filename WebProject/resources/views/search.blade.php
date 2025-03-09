@@ -10,32 +10,42 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <!-- 검색할 문장 영역 -->
-                    <form method="POST" action="{{ route('search') }}">
+                    <form method="GET" action="{{ route('search.text') }}">
                         @csrf
                         <div class="mb-3">
-                            <label for="answer" class="form-label">조회할 내용</label>
-                            <textarea name="answer" style="width:100%; overflow:hidden;" rows="1" required></textarea>
+                            <label for="curious_text" class="form-label">조회할 내용</label>
+                            <textarea name="curious_text" style="width:100%; overflow:hidden;" rows="1" required></textarea>
                         </div>
                         <button type="submit"><strong>Submit</strong></button>
                     </form>
+                </div>
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <!-- 검색한 내용 -->
+                    @if (session('curious_text'))
+                    <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                        검색한 문장 : {{ session('curious_text') }}
+                    </div>
+                    @endif
 
                     <!-- 검색 결과 테이블 영역 -->
                     <table class="min-w-full border-collapse border border-gray-300" style="margin-top: 1rem;">
                         <thead>
                         <tr class="bg-gray-100">
                             <th class="border border-gray-300 px-4 py-2">키</th>
-                            <th class="border border-gray-300 px-4 py-2">검색된 문장</th>
                             <th class="border border-gray-300 px-4 py-2">유사도</th>
+                            <th class="border border-gray-300 px-4 py-2">검색된 문장</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($result_group as $result)
+                        @if (session('result_group'))
+                        @foreach(session('result_group') as $result)
                             <tr>
-                                <td class="border border-gray-300 px-4 py-2">{{ $result->key }}</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ $result->note }}</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ $result->created_at }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $result['_id'] ?? 'None' }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $result['_score'] ?? 'None' }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $result['_source']['content'] ?? 'None' }}</td>
                             </tr>
                         @endforeach
+                        @endif
                         </tbody>
                     </table>
 
