@@ -57,7 +57,10 @@ class SearchController extends Controller
             'body' => [
                 'query' => [
                     'match' => [
-                        'testField' => $curiousText
+                        'content' => [
+                            'query' => $curiousText,
+//                            'fuzziness' => 'AUTO'
+                        ]
                     ]
                 ]
             ]

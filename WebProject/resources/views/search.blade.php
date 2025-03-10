@@ -32,7 +32,7 @@
                         <thead>
                         <tr class="bg-gray-100">
                             <th class="border border-gray-300 px-4 py-2">키</th>
-                            <th class="border border-gray-300 px-4 py-2">유사도</th>
+                            <th class="border border-gray-300 px-4 py-2">점수</th>
                             <th class="border border-gray-300 px-4 py-2">검색된 문장</th>
                         </tr>
                         </thead>
