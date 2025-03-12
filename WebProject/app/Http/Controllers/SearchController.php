@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Elastic\Elasticsearch\ClientBuilder;
+use App\Common\ElasticManager;
 use Elastic\Elasticsearch\Exception\AuthenticationException;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -37,19 +37,7 @@ class SearchController extends Controller
         $curiousText = $validatedData['curious_text'];
 
         // 엘라스틱 서치에 접속합니다.
-        $elasticSearchPassword = getenv('ELASTIC_SEARCH_PASSWORD');
-        if ($elasticSearchPassword === false) {
-            throw new Exception("no elasticsearch password");
-        }
-        $elasticSearchUsername = getenv('ELASTIC_SEARCH_USERNAME');
-        if ($elasticSearchUsername === false) {
-            throw new Exception("no elasticsearch username");
-        }
-        $client = ClientBuilder::create()
-            ->setHosts(['https://elasticsearch-master:9200'])
-            ->setBasicAuthentication($elasticSearchUsername, $elasticSearchPassword)
-            ->setCABundle('/etc/secret-volume/ca.crt')
-            ->build();
+        $client = ElasticManager::get();
 
         // request 정리
         $params = [

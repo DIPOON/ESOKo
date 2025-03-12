@@ -27,7 +27,7 @@ spec:
           emptyDir: {}
         - name: secret-volume
           secret:
-            secretName: elasticsearch-master-certs
+            secretName: quickstart-es-http-certs-internal
         {{ if .Values.localMount }}
         - name: local-laravel-code
           hostPath:
@@ -71,13 +71,8 @@ spec:
               mountPath: /var/www/html
             {{ end }}
           env:
-            - name: ELASTIC_SEARCH_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: elasticsearch-master-credentials
-                  key: username
             - name: ELASTIC_SEARCH_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: elasticsearch-master-credentials
-                  key: password
+                  name: quickstart-es-elastic-user
+                  key: elastic

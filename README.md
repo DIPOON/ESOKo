@@ -65,9 +65,35 @@ WAS 구성 <br>
 helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install --kube-context kind-kind --set localMount=true
 ```
 
-Elasticsearch 구성 <br>
+Elastic stack 구성 <br>
 ```bash
-helm upgrade elastic-search-release elastic/elasticsearch -n local --create-namespace --install --kube-context kind-kind
+helm upgrade elastic-operator elastic/eck-operator -n local --create-namespace --install --kube-context kind-kind
+
+cat <<EOF | kubectl apply --namespace=local -f -
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: quickstart
+spec:
+  version: 8.17.3
+  nodeSets:
+  - name: default
+    count: 1
+    config:
+      node.store.allow_mmap: false
+EOF
+
+cat <<EOF | kubectl apply --namespace=local -f -
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: quickstart
+spec:
+  version: 8.17.3
+  count: 1
+  elasticsearchRef:
+    name: quickstart
+EOF
 ```
 
 (개발 후 optional) 정리

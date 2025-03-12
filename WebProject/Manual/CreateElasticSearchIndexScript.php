@@ -1,6 +1,6 @@
 <?php
 
-use Elastic\Elasticsearch\ClientBuilder;
+use App\Common\ElasticManager;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -12,19 +12,7 @@ try {
     echo date('Y-m-d H:i:s') . "\n";
 
     // 엘라스틱 서치에 접속합니다.
-    $elasticSearchUsername = getenv('ELASTIC_SEARCH_USERNAME');
-    if ($elasticSearchUsername === false) {
-        throw new Exception("no elasticsearch username");
-    }
-    $elasticSearchPassword = getenv('ELASTIC_SEARCH_PASSWORD');
-    if ($elasticSearchPassword === false) {
-        throw new Exception("no elasticsearch password");
-    }
-    $client = ClientBuilder::create()
-        ->setHosts(['https://elasticsearch-master:9200'])
-        ->setBasicAuthentication($elasticSearchUsername, $elasticSearchPassword)
-        ->setCABundle('/etc/secret-volume/ca.crt')
-        ->build();
+    $client = ElasticManager::get();
 
     // PDO 객체 생성
     $host = 'host.docker.internal';
