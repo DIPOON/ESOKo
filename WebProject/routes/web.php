@@ -30,6 +30,7 @@ Route::post('/translate', [TranslationController::class, 'submit']);
 
 Route::get('/search', [SearchController::class, 'get'])->name('search');
 Route::get('/search-text', [SearchController::class, 'getByText'])->name('search.text');
+Route::get('/search-detail', [SearchController::class, 'goTranslate']);
 
 Route::get('/download', [DownloadController::class, 'get'])->name('download');
 

@@ -22,9 +22,9 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <!-- 검색한 내용 -->
                     @if (session('curious_text'))
-                    <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
-                        검색한 문장 : {{ session('curious_text') }}
-                    </div>
+                        <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
+                            검색한 문장 : {{ session('curious_text') }}
+                        </div>
                     @endif
 
                     <!-- 검색 결과 테이블 영역 -->
@@ -38,18 +38,16 @@
                         </thead>
                         <tbody>
                         @if (session('result_group'))
-                        @foreach(session('result_group') as $result)
-                            <tr>
-                                <td class="border border-gray-300 px-4 py-2">{{ $result['_id'] ?? 'None' }}</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ $result['_score'] ?? 'None' }}</td>
-                                <td class="border border-gray-300 px-4 py-2">{{ $result['_source']['content'] ?? 'None' }}</td>
-                            </tr>
-                        @endforeach
+                            @foreach(session('result_group') as $result)
+                                <tr class="result-row cursor-pointer" data-id="{{ $result['_id'] ?? 'None' }}">
+                                    <td class="border border-gray-300 px-4 py-2">{{ $result['_id'] ?? 'None' }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $result['_score'] ?? 'None' }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $result['_source']['content'] ?? 'None' }}</td>
+                                </tr>
+                            @endforeach
                         @endif
                         </tbody>
                     </table>
-
-                    <!-- 검색 레코드 확인하는 모달창 -->
                 </div>
             </div>
         </div>
@@ -58,12 +56,20 @@
 
 <script>
     // textarea 입력할 때 자동으로 높이 조절하기
-    document.querySelectorAll("textarea").forEach(function(textarea) {
+    document.querySelectorAll("textarea").forEach(function (textarea) {
         textarea.style.height = textarea.scrollHeight + "px";
         textarea.style.overflowY = "hidden";
-        textarea.addEventListener("input", function() {
+        textarea.addEventListener("input", function () {
             this.style.height = "auto";
             this.style.height = this.scrollHeight + "px";
+        });
+    });
+
+    // 결과 행 클릭 이벤트
+    document.querySelectorAll(".result-row").forEach(function (row) {
+        row.addEventListener("click", function () {
+            let resultId = encodeURIComponent(this.dataset.id);
+            window.location.href = '/search-detail?result_id=' + resultId;
         });
     });
 </script>

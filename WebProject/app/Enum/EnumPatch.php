@@ -7,6 +7,10 @@ namespace App\Enum;
  */
 class EnumPatch
 {
+    // 현재 사이트가 다루고 있는 업데이트 버전
+    const CURRENT_VERSION = 450; // TODO 새로운 버전 텍스트 올릴 때마다 올려야함
+
+    // 정의된 값
     const NONE = 0;            // 이 상태이면 안됨. DB가 DEFAULT 값 넣은 것
     // ... 중간 생략
     const UPDATE_45_PTS = 450; // update-45pts lang 파일
