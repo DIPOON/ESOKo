@@ -60,15 +60,14 @@ MySQL DB 구성 <br>
 helm upgrade db-release oci://registry-1.docker.io/bitnamicharts/mysql -n local --create-namespace --install --kube-context kind-kind -f Environment/KubernetesValue/local/mysql-value.yaml
 ```
 
-WAS 구성 <br>
-```bash
-helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install --kube-context kind-kind --set localMount=true
-```
-
 Elastic stack 구성 <br>
 ```bash
+helm repo add elastic https://helm.elastic.co
+```
+```bash
 helm upgrade elastic-operator elastic/eck-operator -n local --create-namespace --install --kube-context kind-kind
-
+```
+```bash
 cat <<EOF | kubectl apply --namespace=local -f -
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
@@ -82,7 +81,8 @@ spec:
     config:
       node.store.allow_mmap: false
 EOF
-
+```
+```bash
 cat <<EOF | kubectl apply --namespace=local -f -
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
@@ -94,6 +94,11 @@ spec:
   elasticsearchRef:
     name: quickstart
 EOF
+```
+
+WAS 구성 <br>
+```bash
+helm upgrade was-release Environment/HelmChart/esoko -n local --create-namespace --install --kube-context kind-kind --set localMount=true
 ```
 
 (개발 후 optional) 정리
