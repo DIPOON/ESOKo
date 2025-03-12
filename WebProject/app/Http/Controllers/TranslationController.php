@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Common\ElasticManager;
 use App\Enum\EnumState;
 use App\Enum\EnumUser;
 use App\Enum\EnumPatch;
 use App\Models\TranslationLog;
+use Elastic\Elasticsearch\Exception\AuthenticationException;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -45,7 +48,7 @@ class TranslationController extends Controller
             'unknown' => $unknown,
             'index' => $index,
             'offset' => $offset,
-            'version' => EnumPatch::UPDATE_45_PTS, // TODO 새로운 버전 텍스트 올릴 때마다 올려야함
+            'version' => EnumPatch::CURRENT_VERSION,
         );
     }
 
@@ -62,6 +65,8 @@ class TranslationController extends Controller
     /**
      * @param Request $request
      * @return RedirectResponse
+     * @throws AuthenticationException
+     * @throws Exception
      */
     public function submit(Request $request): RedirectResponse
     {
@@ -111,6 +116,27 @@ class TranslationController extends Controller
         $translationLog->state = EnumState::UNKNOWN; // TODO 유저 레벨 반영
         $translationLog->user_id = $userId;
         $translationLog->save();
+
+        // 엘라스틱 서치에 접속합니다.
+        $client = ElasticManager::get();
+
+        // 평이하게 입력
+        $elasticId = $langId . '-' . $unknown . '-' . $index . '-kr';
+        $krText = $text;
+        $body = json_encode(array('content' => $krText));
+
+        $params = [
+            'index' => 'my_index',
+            'id'    => $elasticId,
+            'body'  => $body,
+        ];
+
+        // 엘라스틱서치에 등록
+        try {
+            $client->index($params);
+        } catch (Exception $e) {
+            throw new Exception("fail to get elasticsearch\n" . $e->getMessage());
+        }
 
         return redirect()->route('translate')->with('message', $translationLog->id);
     }

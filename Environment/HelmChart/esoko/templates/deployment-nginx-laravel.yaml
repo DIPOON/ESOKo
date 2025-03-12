@@ -25,6 +25,9 @@ spec:
             name: configmap-php
         - name: nginx-php-static-resource
           emptyDir: {}
+        - name: secret-volume
+          secret:
+            secretName: quickstart-es-http-certs-internal
         {{ if .Values.localMount }}
         - name: local-laravel-code
           hostPath:
@@ -60,7 +63,16 @@ spec:
             - name: php-conf
               mountPath: /usr/local/etc/php-fpm.d/zzz.conf
               subPath: zzz.conf
+            - name: secret-volume
+              mountPath: "/etc/secret-volume"
+              readOnly: true
             {{ if .Values.localMount }}
             - name: local-laravel-code
               mountPath: /var/www/html
             {{ end }}
+          env:
+            - name: ELASTIC_SEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: quickstart-es-elastic-user
+                  key: elastic

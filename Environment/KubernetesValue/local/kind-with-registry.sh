@@ -33,11 +33,19 @@ nodes:
       - containerPort: 30080
         hostPort: 5759
     extraMounts:
-      - hostPath: /mnt/d/ESOKo/WebProject
+      - hostPath: <당신의 프로젝트 경로>/ESOKo/WebProject
         containerPath: /app/www
   - role: worker
     extraMounts:
-      - hostPath: /mnt/d/ESOKo/WebProject
+      - hostPath: <당신의 프로젝트 경로>/ESOKo/WebProject
+        containerPath: /app/www
+  - role: worker
+    extraMounts:
+      - hostPath: <당신의 프로젝트 경로>/ESOKo/WebProject
+        containerPath: /app/www
+  - role: worker
+    extraMounts:
+      - hostPath: <당신의 프로젝트 경로>/ESOKo/WebProject
         containerPath: /app/www
 EOF
 

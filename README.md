@@ -55,9 +55,45 @@ docker push localhost:5001/laravel:latest
 curl -X GET http://localhost:5001/v2/laravel/tags/list
 ```
 
-DB 구성 <br>
+MySQL DB 구성 <br>
 ```bash
 helm upgrade db-release oci://registry-1.docker.io/bitnamicharts/mysql -n local --create-namespace --install --kube-context kind-kind -f Environment/KubernetesValue/local/mysql-value.yaml
+```
+
+Elastic stack 구성 <br>
+```bash
+helm repo add elastic https://helm.elastic.co
+```
+```bash
+helm upgrade elastic-operator elastic/eck-operator -n local --create-namespace --install --kube-context kind-kind
+```
+```bash
+cat <<EOF | kubectl apply --namespace=local -f -
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: quickstart
+spec:
+  version: 8.17.3
+  nodeSets:
+  - name: default
+    count: 1
+    config:
+      node.store.allow_mmap: false
+EOF
+```
+```bash
+cat <<EOF | kubectl apply --namespace=local -f -
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: quickstart
+spec:
+  version: 8.17.3
+  count: 1
+  elasticsearchRef:
+    name: quickstart
+EOF
 ```
 
 WAS 구성 <br>
@@ -92,6 +128,7 @@ kind delete cluster
 <li>JavaScript</li>
 <li>Google Cloud Console</li>
 <li>Google Kubernetes Engine</li>
+<li>WSL</li>
 </ul>
 
 ## 알려진 문제
