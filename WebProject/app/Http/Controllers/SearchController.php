@@ -103,7 +103,8 @@ class SearchController extends Controller
 
         // 번역 페이지로 요청한 검색 결과로 응답
         $result = array(
-            'question' => $result->text,
+            'en_text' => $result->en_text,
+            'kr_text' => $result->text,
             'lang_id' => $result->lang_id,
             'unknown' => $result->unknown,
             'index' => $result->index,

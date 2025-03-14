@@ -10,8 +10,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <!-- 번역 필요한 출력 -->
-                    <h3 style="color: blue;"><strong>번역 필요한 문장</strong></h3>
-                    <p>{{ $question ?? 'None data' }}</p>
+                    <h3 style="color: blue;"><strong>번역 필요한 영어 문장</strong></h3>
+                    <p>{{ $en_text ?? '서버에서 데이터를 안내려주는데? (웹 개발자가 씀)' }}</p>
+                    <h3 style="color: blue;"><strong>최신 한패에서의 문장</strong></h3>
+                    <p>{{ $kr_text ?? '근데 한패에서는 뭐라고 적혀있는지 모르겠어요. (웹 개발자가 씀)' }}</p>
 
                     <!-- 답변 제출 폼 -->
                     <form method="POST" action="{{ route('translate') }}">

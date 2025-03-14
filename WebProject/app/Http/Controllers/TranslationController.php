@@ -26,7 +26,8 @@ class TranslationController extends Controller
     private function getTranslateDefaultReturn(): array
     {
         // lang_id-unknown-index-offset 테이블에서 랜덤하게 하나의 레코드 조회
-        $stringed = '번역할 문장이 없나봐요';
+        $enText = '영어로된 원문을 모르겠어요. (웹 개발자가 씀)';
+        $krText = '한패에서 해당 문장이 없나봐요 (웹 개발자가 씀)';
         $langId = 0;
         $unknown = 0;
         $index = 0;
@@ -36,14 +37,15 @@ class TranslationController extends Controller
             ->inRandomOrder()
             ->first();
         if (is_null($result) === false) {
-            $stringed = $result->text;
+            $krText = $result->text;
             $langId = $result->lang_id;
             $unknown = $result->unknown;
             $index = $result->index;
             $offset = $result->offset;
         }
         return array(
-            'question' => $stringed,
+            'en_text' => $enText,
+            'kr_text' => $krText,
             'lang_id' => $langId,
             'unknown' => $unknown,
             'index' => $index,
