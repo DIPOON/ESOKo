@@ -91,11 +91,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('search')" :active="request()->routeIs('search')">
-                {{ __('Search') }}
-            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('translate')" :active="request()->routeIs('translate')">
                 {{ __('Translate') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('search')" :active="request()->routeIs('search')">
+                {{ __('Search') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('download')" :active="request()->routeIs('download')">
                 {{ __('Download') }}
