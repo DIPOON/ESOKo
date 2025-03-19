@@ -20,9 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [TranslationController::class, 'getLog'])->middleware(['auth'])->name('dashboard');
 
 Route::get('/translate', [TranslationController::class, 'randomShow'])->name('translate');
 Route::get('/translate-sub', [TranslationController::class, 'getSub']);
