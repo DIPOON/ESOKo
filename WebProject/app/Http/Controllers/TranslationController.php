@@ -37,6 +37,7 @@ class TranslationController extends Controller
             ->inRandomOrder()
             ->first();
         if (is_null($result) === false) {
+            $enText = $result->en_text;
             $krText = $result->text;
             $langId = $result->lang_id;
             $unknown = $result->unknown;
