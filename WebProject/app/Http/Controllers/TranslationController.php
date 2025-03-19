@@ -66,6 +66,45 @@ class TranslationController extends Controller
     }
 
     /**
+     * 로그 목록 전달
+     * @return Application|Factory|View
+     */
+    public function getLog(): Factory|View|Application
+    {
+        // 전체 번역 로그 조회
+        $totalLogPage = DB::table('translation_logs')->paginate();
+
+        // 각 번역했던 로그 별로 원문, 한패에 적용 예정인 문장, 검색할 때의 형식을 추가해서 전달
+        $totalLogGroup = array();
+        foreach ($totalLogPage as $log) {
+            $result = DB::table('lang_id_unknown_index_offsets')
+                ->where('lang_id', $log->lang_id)
+                ->where('unknown', $log->unknown)
+                ->where('index', $log->index)
+                ->first();
+            $enText = '서버가 원문은 모르겠다네 (웹 개발자가 씀)';
+            $krText = '서버가 한패 내용을 모르겠다네 (웹 개발자가 씀)';
+            if (is_null($result) === false) {
+                $enText = $result->en_text;
+                $krText = $result->text;
+            }
+            $totalLogGroup[] = [
+                'search_id' => $log->lang_id . '-' . $log->unknown . '-' . $log->index,
+                'en_text' => $enText,
+                'kr_text' => $krText,
+                'log_text' => $log->text,
+            ];
+        }
+
+        // 응답 생성
+        $result = [
+            'total_log_group' => $totalLogGroup,
+            'total_log_page' => $totalLogPage,
+        ];
+        return view('dashboard', $result);
+    }
+
+    /**
      * @param Request $request
      * @return RedirectResponse
      * @throws AuthenticationException
