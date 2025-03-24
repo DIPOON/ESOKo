@@ -72,7 +72,10 @@ class TranslationController extends Controller
     public function getLog(): Factory|View|Application
     {
         // 전체 번역 로그 조회
-        $totalLogPage = DB::table('translation_logs')->paginate();
+        $totalLogPage = DB::table('translation_logs')
+            ->whereNotIn('version', [EnumPatch::DISTRO])
+            ->orderByDesc('id')
+            ->paginate();
 
         // 각 번역했던 로그 별로 원문, 한패에 적용 예정인 문장, 검색할 때의 형식을 추가해서 전달
         $totalLogGroup = array();
@@ -81,7 +84,6 @@ class TranslationController extends Controller
                 ->where('lang_id', $log->lang_id)
                 ->where('unknown', $log->unknown)
                 ->where('index', $log->index)
-                ->whereNotIn('version', EnumPatch::DISTRO)
                 ->first();
             $enText = '서버가 원문은 모르겠다네 (웹 개발자가 씀)';
             $krText = '서버가 한패 내용을 모르겠다네 (웹 개발자가 씀)';
