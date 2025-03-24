@@ -81,6 +81,7 @@ class TranslationController extends Controller
                 ->where('lang_id', $log->lang_id)
                 ->where('unknown', $log->unknown)
                 ->where('index', $log->index)
+                ->whereNotIn('version', EnumPatch::DISTRO)
                 ->first();
             $enText = '서버가 원문은 모르겠다네 (웹 개발자가 씀)';
             $krText = '서버가 한패 내용을 모르겠다네 (웹 개발자가 씀)';
