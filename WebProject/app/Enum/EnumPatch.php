@@ -13,6 +13,7 @@ class EnumPatch
     // 정의된 값
     const NONE = 0;            // 이 상태이면 안됨. DB가 DEFAULT 값 넣은 것
     const TEMP = 5;            // 급히 올릴 때 이름 대응 안되어 있을까봐
+    const DISTRO = 6;          // 이전 한패에 있던 버전. 무슨 버전인지 알 수 없어서 임시로 세팅한 값
     // ... 중간 생략
     const UPDATE_45_PTS = 450; // update-45pts lang 파일
     const UPDATE_45 = 455;     // update-45 lang 파일
