@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateTranslationLogsTable extends Migration
@@ -27,6 +28,9 @@ class CreateTranslationLogsTable extends Migration
             $table->index(['lang_id', 'unknown', 'index', 'offset', 'version']);
             $table->index(['user_id']);
         });
+
+        // unknown 128 넘는 경우가 있어서 바꿈 ;
+        DB::statement("ALTER TABLE `laravel`.`translation_logs` CHANGE `unknown` `unknown` SMALLINT NOT NULL");
     }
 
     /**
