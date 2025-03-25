@@ -135,6 +135,3 @@ kind delete cluster
 
 kind-with-registry.sh invalid 명령어라고 뜨면서 실패하는 경우
 line seperator 를 수정하거나 /bin/bash -> /bin/sh 수정
-
-라라벨 /storage/ ... /.log permission denied 발생하는 경우
-chmod 777 storage/ -R
