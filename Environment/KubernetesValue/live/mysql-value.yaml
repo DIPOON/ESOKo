@@ -1,0 +1,13 @@
+auth:
+  rootPassword: 이거는 비밀
+  database: laravel
+
+primary:
+  service:
+    type: NodePort
+    nodePorts:
+      mysql: 30306
+  resources:
+    requests:
+      cpu: 50m
+      memory: 750Mi
