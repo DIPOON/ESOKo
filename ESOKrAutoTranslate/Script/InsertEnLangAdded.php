@@ -5,6 +5,7 @@ require '../vendor/autoload.php';
 
 use App\Enum\EnumState;
 use App\Enum\EnumUser;
+use Elastic\Elasticsearch\ClientBuilder;
 
 /**
  * 새로운 en.lang 의 added 를 lang_id_unknown_index_offsets 테이블에 넣는다.
@@ -14,7 +15,7 @@ try {
     echo date('Y-m-d H:i:s') . "\n";
 
     // 새로 추가된 부분 조회
-    $file = fopen("../Design/en45pts.lang.added.csv", 'r');
+    $file = fopen("../Design/en46.lang.added.csv", 'r');
     if ($file === false) {
         throw new Exception("Unable to open file!");
     }
@@ -24,8 +25,15 @@ try {
     $password = 'korean@local';
 
     // PDO 객체 생성
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password); // ;port=33066 등의 실제 포트 필요
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // 엘라스틱서치 연결
+    $client = ClientBuilder::create()
+        ->setHosts(['https://host.docker.internal:9200'])
+        ->setBasicAuthentication('elastic', "비밀번호") // TODO 실제 비밀 번호 필요
+        ->setSSLVerification(false)
+        ->build();
 
     // 추가
     $counter = 0;
@@ -44,14 +52,32 @@ try {
         $state = EnumState::RAW;
         $userId = EnumUser::ZENIMAX;
         $createdAt = "'" . date('Y-m-d H:i:s') . "'";
-        $sql = "INSERT INTO `lang_id_unknown_index_offsets` (`lang_id`, `unknown`, `index`, `offset`, `text`, `state`, `user_id`, `created_at`, `updated_at`) 
-    VALUES ($langId, $unknown, $index, $offset, :lang_text, $state, $userId, $createdAt, $createdAt)";
+        $sql = "INSERT INTO `lang_id_unknown_index_offsets` (`lang_id`, `unknown`, `index`, `offset`, `en_text`, `text`, `state`, `user_id`, `created_at`, `updated_at`) 
+    VALUES ($langId, $unknown, $index, $offset, :lang_text, :lang_text, $state, $userId, $createdAt, $createdAt)";
 
         // Prepared Statement 사용
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':lang_text', $text); // 특수 문자 안전하게 넣기 위해서 bind
         if ($stmt->execute() === false) {
             throw new Exception("insert fail, $langId, $unknown, $index, $offset");
+        }
+
+        // 평이하게 입력
+        $elasticId = $langId . '-' . $unknown . '-' . $index . '-en';
+        $body = json_encode(array('content' => $text));
+
+        $params = [
+            'index' => 'my_index',
+            'id'    => $elasticId,
+            'body'  => $body,
+        ];
+
+        // 엘라스틱서치에 등록
+        try {
+            $response = $client->index($params);
+//            print_r($response->asArray());
+        } catch (Exception $e) {
+            throw new Exception("fail to get elasticsearch\n" . $e->getMessage());
         }
 
         // 진행 확인용 문구 출력한다.
