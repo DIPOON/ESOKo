@@ -56,7 +56,7 @@ try {
           UPDATE `lang_id_unknown_index_offsets`
           SET en_text = :lang_text,
               `text` = :lang_text,
-              updated_at = '2025-06-18 06:22:23'
+              updated_at = $createdAt
           WHERE
             lang_id = $langId
             AND `unknown` = $unknown

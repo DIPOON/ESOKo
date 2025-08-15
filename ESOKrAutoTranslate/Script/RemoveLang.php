@@ -67,7 +67,11 @@ try {
             $response = $client->delete($params);
             $check = $response->asArray();
         } catch (Exception $e) {
-            throw new Exception("fail to get elasticsearch\n" . $e->getMessage());
+            if ($e->getCode() === 404) {
+                echo "no $elasticId in elasticsearch\n";
+            } else {
+                throw new Exception("fail to get elasticsearch\n" . $e->getMessage());
+            }
         }
 
         // 엘라스틱서치에서도 KR 삭제
@@ -80,7 +84,11 @@ try {
             $response = $client->delete($params);
             $check = $response->asArray();
         } catch (Exception $e) {
-            throw new Exception("fail to get elasticsearch\n" . $e->getMessage());
+            if ($e->getCode() === 404) {
+                echo "no $elasticId in elasticsearch\n";
+            } else {
+                throw new Exception("fail to get elasticsearch\n" . $e->getMessage());
+            }
         }
 
         // 진행 확인용 문구 출력한다.
