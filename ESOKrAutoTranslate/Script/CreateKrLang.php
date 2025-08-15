@@ -25,8 +25,8 @@ try {
     $host = 'host.docker.internal';
     $dbname = 'laravel';
     $username = 'root';
-    $password = 'korean@local';
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $password = 'korean@local'; // TODO 비밀 번호 확인
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password); // TODO 포트 확인
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 번역, 변환해서 저장

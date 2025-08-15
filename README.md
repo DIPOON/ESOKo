@@ -10,25 +10,19 @@ http://www.esokr.org/
 ## esokr 에드온
 https://www.esoui.com/downloads/info2334-EsoKR.html
 
-## ESOkr lang 파일 만드는 방법
-
-1. 먼저 https://esofiles.uesp.net/ 사이트에서 en.lang 파일을 구한다
-<br>
-2. Esoextractdata -d 옵션으로 kr.lang 이랑 en.lang 차이를 구한다
-<br>
-3. Esoextractdata -l 옵션으로 kr.lang.csv 만들어서 en.lang에는 있고 kr.lang에는 없는 행을 추가한다
-<br>
-4. Application/Translate.php 로 구글 번역한다
-<br>
-~~5. kr.lang.csv 에서 백슬래쉬로 줄이 잘리지 않게 가공한다
-https://github.com/DIPOON/ESOKRSub/blob/main/BackslashQuotationRemover.py
-<br>
-이유는 잘 모르겠는데 이부분 하니까 문자열이 오히려 잘림~~
-<br>
-6. esoextractdata -x 옵션으로 kr Lang 파일 만든다
-<br>
-7. 완성된 kr.lang 파일을 기존 에드온 파일 gamedata 쪽에서 갈아끼운다
-<br>
+## 최신 lang 파일 업데이트 시 관리 방법
+1. https://esofiles.uesp.net/ 사이트에서 en.lang 파일을 구한다.
+1. EsoExtractData -d (old en.lang 파일명) (new en.lang 파일명) 옵션으로 added, changed, removed 파일을 얻는다.
+1. 기존 lang_id_unknown_index_offsets 테이블 백업한다.
+1. InsertEnLangAdded.php 스크립트로 TODO 확인하고 새롭게 추가된 added 파일 값을 추가한다.
+1. UpdateEnLangChanged.php 스크립트로 수정된 changed 파일 값을 이용한다. 
+1. RemoveLang.php 스크립트로 삭제된 removed 파일을 사용한다.
+1. CreateKrLang.php 스크립트로 kr.lang.csv 을 만든다.
+1. esoextractdata -x 옵션으로 kr.lang 파일 만든다
+1. 새롭게 만든 kr.lang 과 새로운 en.lang 데이터 숫자가 맞는지 확인한다.
+1. 구글 버킷에 kr.lang 파일을 올린다. SHA-1 이용해서 분류합니다.
+1. patch_kr_links 테이블에 추가한다.
+1. 다운로드 페이지에서 잘 받아지는지 확인한다.
 
 ## 로컬 구성 가이드
 필요 <br>
