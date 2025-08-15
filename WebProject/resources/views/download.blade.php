@@ -33,7 +33,7 @@
                         <tbody>
                         @foreach($patch_kr_link_group as $patchKrLink)
                             <tr>
-                                <td class="border border-gray-300 px-4 py-2">{{ EnumPatch::$patchName[$patchKrLink->patch] ?? '알 수 없는 버전' }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ EnumPatch::getPatchName($patchKrLink->patch) }}</td>
                                 <td class="border border-gray-300 px-4 py-2">
                                     {{--                                    FIXME 왜 파란색으로 안나오는지 모르겠음 --}}
                                     <a href="{{ $patchKrLink->link }}" target="_blank" rel="noopener noreferrer"
