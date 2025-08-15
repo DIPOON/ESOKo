@@ -15,23 +15,23 @@ try {
     echo date('Y-m-d H:i:s') . "\n";
 
     // 새로 추가된 부분 조회
-    $file = fopen("../Design/en46.lang.changed.csv", 'r');
+    $file = fopen("../Design/en46.lang.changed.csv", 'r'); // TODO 파일명 확인
     if ($file === false) {
         throw new Exception("Unable to open file!");
     }
     $host = 'host.docker.internal';
     $dbname = 'laravel';
     $username = 'root';
-    $password = 'korean@local'; // TODO 실제 비밀 번호 필요
+    $password = 'korean@local'; // TODO 비밀 번호 확인
 
     // PDO 객체 생성
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password); // TODO 실제 포트 필요 ;port=33066
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password); // TODO ;port=33066 포트 확인
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 엘라스틱서치 연결
     $client = ClientBuilder::create()
         ->setHosts(['https://host.docker.internal:9200'])
-        ->setBasicAuthentication('elastic', "비밀번호") // TODO 실제 비밀 번호 필요
+        ->setBasicAuthentication('elastic', "비밀번호") // TODO 비밀 번호 확인
         ->setSSLVerification(false)
         ->build();
 
