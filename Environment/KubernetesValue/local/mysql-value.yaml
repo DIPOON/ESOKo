@@ -1,3 +1,7 @@
+image:
+  repository: bitnamilegacy/mysql
+  tag: 8.4.5-debian-12-r0
+
 auth:
   rootPassword: korean@local
   database: laravel
