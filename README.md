@@ -26,11 +26,20 @@ https://www.esoui.com/downloads/info2334-EsoKR.html
 
 ## 로컬 구성 가이드
 필요 <br>
-리눅스(WSL) 도커(도커데스크탑) Kind Helm Git Php K9s Composer
+리눅스(WSL) npm 도커(도커데스크탑) Kind Helm Git Php K9s Composer
+
+PHP 라이브러리 설치 <br>
+```bash
+composer install -d WebProject
+```
+(option) 프론트엔드 도구 설치 <br>
+```bash
+npm install --prefix WebProject
+```
 
 라라벨 이미지 생성 <br>
 ```bash
-docker build -t localhost:5001/laravel:latest WebProject/ 
+docker build -t localhost:5001/laravel:latest WebProject/
 ```
 
 Kind 구성 <br>
