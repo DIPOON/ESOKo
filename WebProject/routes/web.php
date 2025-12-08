@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TermController;
 use App\Http\Controllers\TranslationController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,5 +32,10 @@ Route::get('/search-text', [SearchController::class, 'getByText'])->name('search
 Route::get('/search-detail', [SearchController::class, 'goTranslate']);
 
 Route::get('/download', [DownloadController::class, 'get'])->name('download');
+
+Route::get('/glossary', [TermController::class, 'index'])->name('glossary.index');
+Route::post('/glossary', [TermController::class, 'store'])->name('glossary.store');
+Route::put('/glossary/{term}', [TermController::class, 'update'])->name('glossary.update');
+Route::delete('/glossary/{term}', [TermController::class, 'destroy'])->name('glossary.destroy');
 
 require __DIR__.'/auth.php';
