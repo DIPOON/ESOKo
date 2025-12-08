@@ -31,6 +31,11 @@
                     <x-nav-link :href="route('download')" :active="request()->routeIs('download')">
                         {{ __('Download') }}
                     </x-nav-link>
+
+                    <!-- Glossary Menu -->
+                    <x-nav-link :href="route('glossary.index')" :active="request()->routeIs('glossary.*')">
+                        {{ __('Glossary') }}
+                    </x-nav-link>
                 </div>
 
                 <!-- 어떤 화면에서건 로그인 가능하게 -->
@@ -99,6 +104,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('download')" :active="request()->routeIs('download')">
                 {{ __('Download') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('download')" :active="request()->routeIs('glossary.*')">
+                {{ __('Glossary') }}
             </x-responsive-nav-link>
         </div>
 
