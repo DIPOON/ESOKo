@@ -105,7 +105,7 @@
             <x-responsive-nav-link :href="route('download')" :active="request()->routeIs('download')">
                 {{ __('Download') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('download')" :active="request()->routeIs('glossary.*')">
+            <x-responsive-nav-link :href="route('glossary.index')" :active="request()->routeIs('glossary.*')">
                 {{ __('Glossary') }}
             </x-responsive-nav-link>
         </div>
