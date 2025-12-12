@@ -85,6 +85,23 @@ try {
             throw new Exception("fail to index elasticsearch\n" . $e->getMessage());
         }
 
+        // 한국어도 되돌아갔으니 엘라스틱 서치 한국어 document 삭제
+        $KrElasticId = $elasticPrefix . '-kr';
+        try {
+            $response = $client->delete(
+                [
+                    'index' => 'my_index',
+                    'id'    => $KrElasticId,
+                ]
+            );
+        } catch (Exception $e) {
+            if ($e->getCode() == 404) {
+                echo "no $counter, $langId, $unknown, $index, $offset kr document" . PHP_EOL;
+            } else {
+                throw new Exception("fail to delete elasticsearch\n" . $e->getMessage());
+            }
+        }
+
         // 진행 확인용 문구 출력한다.
         echo "$counter, $langId, $unknown, $index, $offset done";
         print("\n");
