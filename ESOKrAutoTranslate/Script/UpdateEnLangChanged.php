@@ -69,21 +69,20 @@ try {
             throw new Exception("insert fail, $langId, $unknown, $index, $offset");
         }
 
-        // 평이하게 입력
-        $elasticId = $langId . '-' . $unknown . '-' . $index . '-en';
-        $body = json_encode(array('content' => $text));
-
-        $params = [
-            'index' => 'my_index',
-            'id'    => $elasticId,
-            'body'  => $body,
-        ];
+        // index document id 앞부분
+        $elasticPrefix = $langId . '-' . $unknown . '-' . $index;
 
         // 엘라스틱서치에 등록
+        $EnElasticId = $elasticPrefix . '-en';
+        $body = json_encode(array('content' => $text));
         try {
-            $response = $client->index($params);
+            $response = $client->index([
+                'index' => 'my_index',
+                'id'    => $EnElasticId,
+                'body'  => $body,
+            ]);
         } catch (Exception $e) {
-            throw new Exception("fail to get elasticsearch\n" . $e->getMessage());
+            throw new Exception("fail to index elasticsearch\n" . $e->getMessage());
         }
 
         // 진행 확인용 문구 출력한다.
