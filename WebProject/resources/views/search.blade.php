@@ -34,15 +34,25 @@
                             <th class="border border-gray-300 px-4 py-2">키</th>
                             <th class="border border-gray-300 px-4 py-2">점수</th>
                             <th class="border border-gray-300 px-4 py-2">검색된 문장</th>
+                            <th class="border border-gray-300 px-4 py-2">관리</th>
                         </tr>
                         </thead>
                         <tbody>
                         @if (session('result_group'))
                             @foreach(session('result_group') as $result)
-                                <tr class="result-row cursor-pointer" data-id="{{ $result['_id'] ?? 'None' }}">
-                                    <td class="border border-gray-300 px-4 py-2">{{ $result['_id'] ?? 'None' }}</td>
-                                    <td class="border border-gray-300 px-4 py-2">{{ $result['_score'] ?? 'None' }}</td>
-                                    <td class="border border-gray-300 px-4 py-2">{{ $result['_source']['content'] ?? 'None' }}</td>
+                                @php
+                                    $detailUrl = '/search-detail?result_id=' . urlencode($result['_id'] ?? 'None');
+                                @endphp
+                                <tr class="hover:bg-gray-50 border-b border-gray-200">
+                                    <td class="px-4 py-2">{{ $result['_id'] ?? 'None' }}</td>
+                                    <td class="px-4 py-2">{{ $result['_score'] ?? 'None' }}</td>
+                                    <td class="px-4 py-2">{{ $result['_source']['content'] ?? 'None' }}</td>
+                                    <td class="px-4 py-2 text-center">
+                                        <a href="{{ $detailUrl }}"
+                                           class="inline-flex items-center px-3 py-1 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring ring-blue-300 active:bg-blue-600 transition ease-in-out duration-150">
+                                            번역하기
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         @endif
@@ -62,14 +72,6 @@
         textarea.addEventListener("input", function () {
             this.style.height = "auto";
             this.style.height = this.scrollHeight + "px";
-        });
-    });
-
-    // 결과 행 클릭 이벤트
-    document.querySelectorAll(".result-row").forEach(function (row) {
-        row.addEventListener("click", function () {
-            let resultId = encodeURIComponent(this.dataset.id);
-            window.location.href = '/search-detail?result_id=' + resultId;
         });
     });
 </script>
