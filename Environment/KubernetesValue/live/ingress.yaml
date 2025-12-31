@@ -4,7 +4,12 @@ metadata:
   name: helloweb
   namespace: live
   annotations:
+    # 1. 고정 IP 사용
     kubernetes.io/ingress.global-static-ip-name: helloweb-ip
+    # 2. 구글 관리형 인증서 연결
+    networking.gke.io/managed-certificates: esokr-cert
+    # 3. HTTPS 리다이렉트 설정 연결 (FrontendConfig)
+    networking.gke.io/v1beta1.FrontendConfig: helloweb-frontend-config
   labels:
     app: was
 spec:
