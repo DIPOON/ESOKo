@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: esokr-cert
+  namespace: live
+spec:
+  domains:
+    - esokr.org
