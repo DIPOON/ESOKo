@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,8 +22,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        //
+        // 상용 환경일 때 모든 URL 생성을 HTTPS로 강제합니다.
+        if (app()->environment('live')) {
+            URL::forceScheme('https');
+        }
     }
 }
