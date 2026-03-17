@@ -4,6 +4,6 @@ metadata:
   name: quickstart
 spec:
   version: 8.17.3
-  count: 1
+  count: 0
   elasticsearchRef:
     name: quickstart
