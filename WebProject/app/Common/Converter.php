@@ -7,6 +7,21 @@ use Exception;
 class Converter
 {
     /**
+     * UTF-8 3바이트 정수값이 유효한 UTF-8 바이트 구성인지 검증
+     * 바이트 산술 시 캐리로 인해 continuation byte(0x80-0xBF)를 벗어나는 경우 감지
+     */
+    static private function isValidUTF8Int(int $value): bool {
+        $byte1 = ($value >> 16) & 0xFF;
+        $byte2 = ($value >> 8) & 0xFF;
+        $byte3 = $value & 0xFF;
+
+        // 3-byte UTF-8: 1110xxxx 10xxxxxx 10xxxxxx
+        return ($byte1 >= 0xE0 && $byte1 <= 0xEF)
+            && ($byte2 >= 0x80 && $byte2 <= 0xBF)
+            && ($byte3 >= 0x80 && $byte3 <= 0xBF);
+    }
+
+    /**
      * @param string $beforeString The text to convert.
      * @return string converted text.
      */
@@ -40,10 +55,10 @@ class Converter
                 $resultCharValue = $beforeUTF8Value + 0x3F800;
             }
 
-            // 결과 string에 덧붙이기
-            if (is_null($resultCharValue) === true) { // Convert 당할 글자를 제외하면 원본
-                $afterString .= $eachChar;
-            } else { // Convert 된 글자
+            // 결과 검증 후 덧붙이기
+            if (is_null($resultCharValue) || !self::isValidUTF8Int($resultCharValue)) {
+                $afterString .= $eachChar; // 변환 실패 또는 유효하지 않으면 원본 유지
+            } else {
                 $afterString .= hex2bin(dechex($resultCharValue));
             }
         }
