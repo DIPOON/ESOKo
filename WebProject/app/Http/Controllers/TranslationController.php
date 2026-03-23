@@ -25,17 +25,21 @@ class TranslationController extends Controller
      */
     private function getTranslateDefaultReturn(): array
     {
-        // lang_id-unknown-index-offset 테이블에서 랜덤하게 하나의 레코드 조회
+        // 기본값
         $enText = '영어로된 원문을 모르겠어요. (웹 개발자가 씀)';
         $krText = '한패에서 해당 문장이 없나봐요 (웹 개발자가 씀)';
         $langId = 0;
         $unknown = 0;
         $index = 0;
         $offset = 0;
-        $result = DB::table('lang_id_unknown_index_offsets')
-            ->where('state', EnumState::RAW) // TODO 나중에 번역 상태가 낮은 것부터 조회하도록 개선
-            ->inRandomOrder()
-            ->first();
+
+        // lang_id-unknown-index-offset 테이블에서 번역 이상한 것 랜덤하게 하나의 레코드 조회
+        $candidates = DB::table('lang_id_unknown_index_offsets')
+            ->orderByDesc('claude_score')
+            ->limit(100)
+            ->get();
+        $result = $candidates->isNotEmpty() ? $candidates->random() : null;
+
         if (is_null($result) === false) {
             $enText = $result->en_text;
             $krText = $result->text;
@@ -148,6 +152,7 @@ class TranslationController extends Controller
                 'text' => $text,
                 'state' => EnumState::UNKNOWN, // TODO 사용자 레벨에 따라 변경
                 'user_id' => $userId,
+                'claude_score' => -1,
             ]);
 
         // 번역 로그 남기기

@@ -36,6 +36,9 @@ return new class extends Migration
 
         // 원문을 보여주고 번역할 수 있도록 en_lang 에 있는 text 칼럼 추가
         DB::statement("ALTER TABLE `lang_id_unknown_index_offsets` ADD COLUMN `en_text` TEXT NOT NULL AFTER `offset`");
+
+        // 번역 우선순위를 위해 cluade_score 칼럼 추가 + 인덱스 추가
+        DB::statement("ALTER TABLE `lang_id_unknown_index_offsets`   ADD COLUMN `claude_score` SMALLINT NOT NULL DEFAULT -1 AFTER `state`,   ADD INDEX `claude_score` (`claude_score`)");
     }
 
     /**
