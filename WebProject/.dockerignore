@@ -4,3 +4,6 @@
 Dockerfile
 README.md
 tests
+.github
+storage/logs/*
+storage/framework/cache/*
