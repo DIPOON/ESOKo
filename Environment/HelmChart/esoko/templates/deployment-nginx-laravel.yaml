@@ -6,6 +6,11 @@ metadata:
     app: was
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0  # 배포 중에도 죽은 놈은 0명이어야 한다 (서비스 유지)
+      maxSurge: 1        # 새 파드 1개를 먼저 만들고 시작해라
   selector:
     matchLabels:
       app: was
@@ -52,6 +57,40 @@ spec:
               mountPath: /etc/nginx/conf.d
             - name: nginx-php-static-resource
               mountPath: /usr/share/nginx/html/public
+          resources:
+            requests:
+              cpu: 1m
+              memory: 40Mi
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 30    # 30 * 2s = 60초 동안 기다림
+            periodSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /  # 혹은 /healthcheck
+              port: 80
+            initialDelaySeconds: 0   # startupProbe 이후
+            periodSeconds: 30        # periodSeconds초 간격으로 찌름
+            timeoutSeconds: 2        # 2초 이상 답변 없으면 고장난 것으로 간주
+            successThreshold: 1      # 1번 성공하면 OK
+            failureThreshold: 3      # 3번 실패하면 고장난 걸로 간주
+          livenessProbe:
+            httpGet:
+              path: /  # 혹은 /healthcheck
+              port: 80
+            initialDelaySeconds: 0   # startupProbe 이후
+            periodSeconds: 30        # periodSeconds초 간격으로 찌름
+            timeoutSeconds: 2        # 2초 이상 답변 없으면 고장난 것으로 간주
+            successThreshold: 1      # 1번 성공하면 OK
+            failureThreshold: 3      # 3번 실패하면 고장난 걸로 간주
+
+            # 종료 지연 (GCP LB 갱신될 때까지 버티기)
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "/bin/sh", "-c", "sleep 10" ]
         - name: laravel
           image: localhost:5001/laravel:latest
           imagePullPolicy: Always
@@ -76,3 +115,7 @@ spec:
                 secretKeyRef:
                   name: quickstart-es-elastic-user
                   key: elastic
+          resources:
+            requests:
+              cpu: 5m
+              memory: 200Mi
