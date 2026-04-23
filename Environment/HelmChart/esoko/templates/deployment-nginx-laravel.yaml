@@ -61,17 +61,32 @@ spec:
             requests:
               cpu: 1m
               memory: 40Mi
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 30    # 30 * 2s = 60초 동안 기다림
+            periodSeconds: 2
           readinessProbe:
             httpGet:
               path: /  # 혹은 /healthcheck
               port: 80
             initialDelaySeconds: 0   # startupProbe 이후
-            periodSeconds: 30        # 2초 간격으로 찌름
+            periodSeconds: 30        # periodSeconds초 간격으로 찌름
+            timeoutSeconds: 2        # 2초 이상 답변 없으면 고장난 것으로 간주
+            successThreshold: 1      # 1번 성공하면 OK
+            failureThreshold: 3      # 3번 실패하면 고장난 걸로 간주
+          livenessProbe:
+            httpGet:
+              path: /  # 혹은 /healthcheck
+              port: 80
+            initialDelaySeconds: 0   # startupProbe 이후
+            periodSeconds: 30        # periodSeconds초 간격으로 찌름
             timeoutSeconds: 2        # 2초 이상 답변 없으면 고장난 것으로 간주
             successThreshold: 1      # 1번 성공하면 OK
             failureThreshold: 3      # 3번 실패하면 고장난 걸로 간주
 
-            # [설정 3] 종료 지연 (GCP LB 갱신될 때까지 버티기 ★핵심)
+            # 종료 지연 (GCP LB 갱신될 때까지 버티기)
           lifecycle:
             preStop:
               exec:
